@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import ScrollToTop from "@/components/ScrollToTop";
 import { Roboto } from "next/font/google";
 import "node_modules/react-modal-video/css/modal-video.css";
-import "../styles/index.css";
+import "../styles/index.scss";
 
 const roboto = Roboto({ weight: ['400', '500', '700'], subsets: ["latin"] });
 

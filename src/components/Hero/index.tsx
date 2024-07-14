@@ -114,7 +114,7 @@ const Hero = () => {
                     singleClickEdit={true}
                     suppressRowClickSelection={true}
                     suppressRowHoverHighlight={false}
-                    // stopEditingWhenCellsLoseFocus={true}
+                    stopEditingWhenCellsLoseFocus={true}
                     onCellEditingStarted={onCellEditingStarted}
                   />
                 </div>
