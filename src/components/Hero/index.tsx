@@ -1,13 +1,11 @@
 "use client";
 
 import { AgGridReact } from "ag-grid-react"; // React Data Grid Component
-// import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the Data Grid
-// import "ag-grid-community/styles/ag-theme-alpine.css";
-
 import "./ag.scss";
 
 import { useState } from "react";
-import { ColDef, ICellRenderer } from "ag-grid-community"; // Optional Theme applied to the Data Grid
+import { ColDef, TextCellEditor } from "ag-grid-community";
+import Dropdown from "@/components/Hero/Dropdown";
 
 const Hero = () => {
 
@@ -27,6 +25,7 @@ const Hero = () => {
 
   const onCellEditingStarted = (event) => {
     setTimeout(() => {
+      if (event.api.getCellEditorInstances()[0] != TextCellEditor) return;
       const input = event.api.getCellEditorInstances()[0].getGui().querySelector('input');
       if (input) {
         const length = input.value.length;
@@ -72,7 +71,12 @@ const Hero = () => {
       );
       }
     },
-    { headerName: "model", field: "model" },
+    {
+      headerName: "model", field: "model",
+      cellEditor: Dropdown,
+      cellEditorPopup: true,
+      cellEditorPopupPosition: "under"
+    },
     { headerName: "price", field: "price" }
   ]);
 
@@ -93,10 +97,9 @@ const Hero = () => {
         <div className="container">
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-4">
-              <div className="mx-auto max-w-[800px] text-center">
+              <div className="mx-auto max-w-[1000px] text-center">
 
-
-                <div className="ag-theme-aaa">
+                <div className="ag-theme-aaa h-80">
                   <AgGridReact
                     autoSizeStrategy={{
                       type: "fitGridWidth",
@@ -105,8 +108,9 @@ const Hero = () => {
                         { colId: "action", minWidth: 70, maxWidth: 70 }
                       ]
                     }}
+                    className={'overflow-visible'}
                     defaultColDef={defaultColDef}
-                    domLayout={"autoHeight"}
+                    // domLayout={"autoHeight"}
                     columnDefs={colDefs}
                     rowData={rowData}
                     rowHeight={52}
@@ -116,6 +120,7 @@ const Hero = () => {
                     suppressRowHoverHighlight={false}
                     stopEditingWhenCellsLoseFocus={true}
                     onCellEditingStarted={onCellEditingStarted}
+                    suppressRowTransform={true}
                   />
                 </div>
 

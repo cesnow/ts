@@ -32,6 +32,10 @@
 
 .ag-theme-aaa {
 
+  .ag-aria-description-container{
+    z-index: 99;
+  }
+
   --ag-icon-font-family: agGridQuartz;
   --ag-icon-image-checkbox-checked: #FF00FF;
   --ag-icon-image-checkbox-unchecked: url(/icon1.svg);
