@@ -26,7 +26,7 @@
         --ag-input-border-color: #3588F3,
         --ag-input-focus-border-color: #3588F3,
 
-        --ag-range-selection-border-color: transparent,
+        --ag-range-selection-border-color: #00000017,
         --ag-range-selection-border-style: solid,
 ));
 
@@ -55,6 +55,11 @@
   .ag-text-field-input{
     font-size: 12px;
     padding: 12px;
+  }
+
+  .ag-cell-focus:not(.ag-cell-range-selected):focus-within {
+    border: 1px solid transparent;
+    border-right: solid 1px #00000017;
   }
 }
 
