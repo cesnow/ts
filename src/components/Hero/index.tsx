@@ -6,6 +6,9 @@ import "./ag.scss";
 import { useState } from "react";
 import { ColDef, TextCellEditor } from "ag-grid-community";
 import Dropdown from "@/components/Hero/Dropdown";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { PopoverArrow } from "@radix-ui/react-popover";
 
 const Hero = () => {
 
@@ -34,25 +37,61 @@ const Hero = () => {
     }, 0);
   };
 
+  const refreshGridData = () => {
+    console.log('x')
+  }
+
+  const DeletePhotoPopover = (props: any) => {
+    const [open, setOpen] = useState(false);
+    const refreshGrid = () => {
+      // 這裡你可以調用傳遞進來的回調函數來更新數據
+      props.context.refreshGridData()
+    };
+    return (
+      <div>
+        <Button onClick={() => refreshGrid()}>xggg</Button>
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button onClick={() => setOpen(true)}>x</Button>
+          </PopoverTrigger>
+          <PopoverContent side="left" align="center" className="relative bg-white mr-2">
+            <PopoverArrow className="absolute" fill={'red'} width={20} height={10} markerHeight={10} markerWidth={20}/>
+            <div className="p-5">
+              <p className="mb-4">Are you sure you want to delete this photo?</p>
+              <div className="flex justify-end space-x-2">
+                <Button onClick={() => setOpen(false)}>Not now</Button>
+                <Button variant="destructive" onClick={() => {/* Handle delete action */
+                }}>
+                  Delete
+                </Button>
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
+    );
+  }
+
   const [colDefs, setColDefs] = useState<ColDef[]>([
     {
       checkboxSelection: true,
       headerCheckboxSelection: true,
-      colId: "checkbox", editable: false,
+      colId: "checkbox", editable: false
     },
     {
       headerName: "action", field: "action", editable: false,
       headerComponent: centeredHeaderComponent,
       cellClass: "truncate-multiline",
-      wrapText: true,
+      wrapText: true
     },
-    { headerName: "make", field: "make",
+    {
+      headerName: "make", field: "make",
       cellEditorParams: {
         maxLength: 20
       },
       cellRenderer: (props) => {
-      return (
-        <div className="w-full h-full flex justify-start items-center
+        return (
+          <div className="w-full h-full flex justify-start items-center
               bg-transparent
               hover:before:border-[1px] hover:before:h-3/4 hover:before:absolute hover:before:w-[calc(100%-12px)]
               hover:before:-mx-[6px] hover:before:border-[#00000026]
@@ -69,7 +108,8 @@ const Hero = () => {
       headerName: "model", field: "model",
       cellEditor: Dropdown,
       cellEditorPopup: true,
-      cellEditorPopupPosition: "under"
+      cellEditorPopupPosition: "under",
+      cellRenderer: DeletePhotoPopover
     },
     { headerName: "price", field: "price", cellClass: "truncate-multiline" }
   ]);
@@ -115,6 +155,7 @@ const Hero = () => {
                     stopEditingWhenCellsLoseFocus={true}
                     onCellEditingStarted={onCellEditingStarted}
                     suppressRowTransform={true}
+                    context={{ refreshGridData }}
                   />
                 </div>
 
