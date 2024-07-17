@@ -12,7 +12,7 @@ const Hero = () => {
   const [rowData, setRowData] = useState([
     { make: "Tesla", model: "Model Y", price: 64950, action: "sss" },
     { make: "Ford", model: "F-Series", price: 33850, action: "sss" },
-    { make: "Toyota", model: "Corolla", price: 29600, action: "sss" }
+    { make: "Toyota", model: "Corolla", price: 29600, action: "dddfdsfa爭烏文klsjdf;lkajs;dkfjas;lkdjf;laskjdfa;lsjdsss" }
   ]);
 
   let centeredHeaderComponent = (props) => {
@@ -43,14 +43,8 @@ const Hero = () => {
     {
       headerName: "action", field: "action", editable: false,
       headerComponent: centeredHeaderComponent,
-      cellRenderer: (props) => {
-        return (
-          <div className="w-full h-full flex justify-center items-center">
-            <button className="bg-blue-500 p-1 text-white rounded-md">Action</button>
-          </div>
-        );
-      },
-      // cellStyle: { textAlign: "center"},
+      cellClass: "truncate-multiline",
+      wrapText: true,
     },
     { headerName: "make", field: "make",
       cellEditorParams: {
@@ -77,7 +71,7 @@ const Hero = () => {
       cellEditorPopup: true,
       cellEditorPopupPosition: "under"
     },
-    { headerName: "price", field: "price" }
+    { headerName: "price", field: "price", cellClass: "truncate-multiline" }
   ]);
 
   const [defaultColDef, setDefaultColDef] = useState({

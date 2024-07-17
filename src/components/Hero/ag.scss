@@ -65,6 +65,17 @@
     border: 1px solid transparent;
     border-right: solid 1px #00000017;
   }
+
+  .truncate-multiline {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 限制行數 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; /* 確保正常換行 */
+    word-break: break-all; /* 確保中文單詞不會被斷開 */
+    text-align: justify; /* 左右對齊 */
+  }
 }
 
 
