@@ -9,6 +9,7 @@ import Dropdown from "@/components/Hero/Dropdown";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { PopoverArrow } from "@radix-ui/react-popover";
+import { useDialog, useToast } from "@/components/Hero/dialogContext";
 
 const Hero = () => {
 
@@ -42,14 +43,22 @@ const Hero = () => {
   }
 
   const DeletePhotoPopover = (props: any) => {
+
+    const { openDialog } = useDialog();
+
     const [open, setOpen] = useState(false);
     const refreshGrid = () => {
       // 這裡你可以調用傳遞進來的回調函數來更新數據
       props.context.refreshGridData()
     };
+    const gg = () => {
+      console.log('asdfa')
+      openDialog('delete success')
+    }
     return (
       <div>
         <Button onClick={() => refreshGrid()}>xggg</Button>
+        <Button onClick={gg}>2</Button>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button onClick={() => setOpen(true)}>x</Button>
@@ -60,8 +69,7 @@ const Hero = () => {
               <p className="mb-4">Are you sure you want to delete this photo?</p>
               <div className="flex justify-end space-x-2">
                 <Button onClick={() => setOpen(false)}>Not now</Button>
-                <Button variant="destructive" onClick={() => {/* Handle delete action */
-                }}>
+                <Button variant="destructive" onClick={gg}>
                   Delete
                 </Button>
               </div>
@@ -111,7 +119,11 @@ const Hero = () => {
       cellEditorPopupPosition: "under",
       cellRenderer: DeletePhotoPopover
     },
-    { headerName: "price", field: "price", cellClass: "truncate-multiline" }
+    {
+      headerName: "price",
+      field: "price",
+      cellClass: "truncate-multiline",
+    }
   ]);
 
   const [defaultColDef, setDefaultColDef] = useState({

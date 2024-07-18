@@ -26,8 +26,10 @@ export default function RootLayout({
         <Providers>
           {/*<Header />*/}
           {children}
+          <Dialog />
           <Footer />
           <ScrollToTop />
+
         </Providers>
       </body>
     </html>
@@ -35,4 +37,5 @@ export default function RootLayout({
 }
 
 import { Providers } from "./providers";
+import Dialog from "@/components/Hero/dialog";
 
