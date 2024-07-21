@@ -9,7 +9,8 @@ import Dropdown from "@/components/Hero/Dropdown";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { PopoverArrow } from "@radix-ui/react-popover";
-import { useDialog, useToast } from "@/components/Hero/dialogContext";
+import { useDialog } from "@/components/Hero/dialogContext";
+import CanvasEditor from "@/components/Hero/canvasEditor";
 
 const Hero = () => {
 
@@ -171,6 +172,8 @@ const Hero = () => {
                   />
                 </div>
 
+
+                <CanvasEditor />
 
               </div>
             </div>
