@@ -146,6 +146,8 @@ const Hero = () => {
             <div className="w-full px-4">
               <div className="mx-auto max-w-[1000px] text-center">
 
+                <CanvasEditor />
+
                 <div className="ag-theme-aaa h-80">
                   <AgGridReact
                     autoSizeStrategy={{
@@ -172,8 +174,6 @@ const Hero = () => {
                   />
                 </div>
 
-
-                <CanvasEditor />
 
               </div>
             </div>

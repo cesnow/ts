@@ -46,6 +46,8 @@ const CanvasEditor = () => {
     fabric.FabricObject.prototype.cornerStrokeColor = "#2BEBC8";
     fabric.FabricObject.prototype.cornerSize = 1;
     fabric.FabricObject.prototype.backgroundColor = "black";
+    fabric.FabricObject.prototype.zoomX = 1;
+    fabric.FabricObject.prototype.zoomY = 1;
 
     canvas.current = c;
     c.renderAll();
