@@ -1,8 +1,10 @@
 import * as fabric from "fabric";
 import { useCallback, useRef } from "react";
 import { IDrawToolOptions } from "@/components/Hero/draw/interfaces";
+import { useCursor } from "@/components/Hero/draw/useCursor";
 
 export const useCircleTool = (save: () => void) => {
+  const { controlConfig } = useCursor();
   const canvas = useRef<fabric.Canvas>();
   const isDrawing = useRef<boolean>(false);
   const originXY = useRef({ x: 0, y: 0 });
@@ -24,7 +26,27 @@ export const useCircleTool = (save: () => void) => {
       radius: 0,
       fill: 'transparent',
       selectable: true,
+      hasBorders: false,
       ...options.current
+    });
+    circle.setControlsVisibility(controlConfig);
+
+    canvas.current.on("object:scaling", (e) => {
+      const obj = e.target as fabric.Circle;
+      if (obj && obj.type === "circle") {
+        const scaleX = obj.scaleX;
+        const scaleY = obj.scaleY;
+        const newRadius = obj.radius * Math.max(scaleX, scaleY);
+        const newStrokeWidth = options.current.strokeWidth / Math.max(scaleX, scaleY);
+        obj.set({
+          radius: newRadius,
+          strokeWidth: newStrokeWidth,
+          scaleX: 1,
+          scaleY: 1
+        });
+        obj.setCoords();
+        canvas.current.requestRenderAll();
+      }
     });
 
     canvas.current.add(circle);

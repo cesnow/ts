@@ -1,8 +1,10 @@
 import * as fabric from "fabric";
 import { useCallback, useRef } from "react";
 import { IDrawToolOptions } from "@/components/Hero/draw/interfaces";
+import { useCursor } from "@/components/Hero/draw/useCursor";
 
 export const useArrowTool = (save: () => void) => {
+  const { controlConfig } = useCursor();
   const canvas = useRef<fabric.Canvas>();
   const isDrawing = useRef<boolean>(false);
   const originXY = useRef({ x: 0, y: 0 });
@@ -23,13 +25,12 @@ export const useArrowTool = (save: () => void) => {
 
     originXY.current = canvas.current.getViewportPoint(o.e);
 
-    const line = new fabric.Line([0, 0, 0, 0], {
+    const line = new fabric.Line(
+      [0, 0, 0, 0], {
       selectable: false,
-      // left: 0,
-      // top: 0,
-      originY: "center",
-      originX: "center",
-      ...options.current
+        ...options.current,
+        originY: "center",
+        originX: "center"
     });
 
     // arrow.current = new fabric.Triangle({
@@ -47,26 +48,55 @@ export const useArrowTool = (save: () => void) => {
     const arrowLeft = new fabric.Line([0, 0, 0, 0], {
       stroke: options.current.stroke,
       strokeWidth: options.current.strokeWidth,
+      strokeLineCap: "round",
       selectable: false,
+      originX: "center",
+      originY: "center"
     });
 
     const arrowRight = new fabric.Line([0, 0, 0, 0], {
       stroke: options.current.stroke,
       strokeWidth: options.current.strokeWidth,
+      strokeLineCap: "round",
       selectable: false,
+      originX: "center",
+      originY: "center"
     });
 
     group.current = new fabric.Group([line, arrowRight, arrowLeft], {
       selectable: true,
-      hasBorders: true,
-      hasControls: true,
+      hasBorders: false,
       left: originXY.current.x,
       top: originXY.current.y,
-      originY: "top",
-      originX: "left",
+    });
+    group.current.setControlsVisibility(controlConfig);
+
+    canvas.current.on("object:scaling", function(e) {
+      const shape = e.target;
+      const obj = e.target as fabric.Group;
+      if (obj && obj.type === "group") {
+        const scaleX = obj.scaleX;
+        const scaleY = obj.scaleY;
+        obj.getObjects().forEach((line: fabric.Line) => {
+          line.set({
+            strokeWidth: options.current.strokeWidth / Math.max(scaleX, scaleY)
+          });
+          if (line === arrowLeft || line === arrowRight) {
+            const arrowSize = options.current.arrowSize / Math.max(scaleX, scaleY);
+            const dx = line.x2 - line.x1;
+            const dy = line.y2 - line.y1;
+            const angle = Math.atan2(dy, dx);
+            line.set({
+              x2: line.x1 + arrowSize * Math.cos(angle),
+              y2: line.y1 + arrowSize * Math.sin(angle)
+            });
+          }
+        });
+      }
     });
 
     canvas.current.add(group.current);
+    canvas.current.setActiveObject(group.current);
     canvas.current.requestRenderAll();
 
   }, [canvas]);
@@ -75,14 +105,19 @@ export const useArrowTool = (save: () => void) => {
     if (!isDrawing.current || !group.current) return;
 
     const pointer = canvas.current.getViewportPoint(o.e);
+    const dx = pointer.x - originXY.current.x;
+    const dy = pointer.y - originXY.current.y;
+    const groupWidth = Math.abs(dx);
+    const groupHeight = Math.abs(dy);
 
+    const activeObj = canvas.current.getActiveObject();
     const line = group.current.item(0) as fabric.Line;
     const arrowLeft = group.current.item(1) as fabric.Line;
     const arrowRight = group.current.item(2) as fabric.Line;
 
     line.set({
-      x2: pointer.x - originXY.current.x - line.left,
-      y2: pointer.y - originXY.current.y - line.top
+      x1: -dx / 2, y1: -dy / 2,
+      x2: dx / 2, y2: dy / 2
     });
 
     // arrow.current.set({
@@ -95,28 +130,25 @@ export const useArrowTool = (save: () => void) => {
     const angle = Math.atan2(pointer.y - originXY.current.y, pointer.x - originXY.current.x);
 
     arrowLeft.set({
-      x1: pointer.x,
-      y1: pointer.y,
-      x2: pointer.x - arrowSize * Math.cos(angle - Math.PI / 6),
-      y2: pointer.y - arrowSize * Math.sin(angle - Math.PI / 6),
-      originY: "top",
-      originX: "left",
+      x1: dx / 2, y1: dy / 2,
+      x2: dx / 2 - arrowSize * Math.cos(angle - Math.PI / 6),
+      y2: dy / 2 - arrowSize * Math.sin(angle - Math.PI / 6)
     });
 
-    // Update right arrow line
     arrowRight.set({
-      x1: pointer.x,
-      y1: pointer.y,
-      x2: pointer.x - arrowSize * Math.cos(angle + Math.PI / 6),
-      y2: pointer.y - arrowSize * Math.sin(angle + Math.PI / 6)
+      x1: dx / 2, y1: dy / 2,
+      x2: dx / 2 - arrowSize * Math.cos(angle + Math.PI / 6),
+      y2: dy / 2 - arrowSize * Math.sin(angle + Math.PI / 6)
     });
 
     group.current.set({
-      width: pointer.x - originXY.current.x,
-      height: pointer.y - originXY.current.y
+      width: groupWidth,
+      height: groupHeight,
+      left: Math.min(originXY.current.x, originXY.current.x + dx),
+      top: Math.min(originXY.current.y, originXY.current.y + dy)
     });
 
-    group.current.setCoords();
+    activeObj.setCoords();
     canvas.current.requestRenderAll();
 
   }, [canvas, isDrawing]);

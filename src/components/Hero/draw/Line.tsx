@@ -1,8 +1,10 @@
 import * as fabric from "fabric";
 import { useCallback, useRef } from "react";
 import { IDrawToolOptions } from "@/components/Hero/draw/interfaces";
+import { useCursor } from "@/components/Hero/draw/useCursor";
 
 export const useLineTool = (save: () => void) => {
+  const { controlConfig } = useCursor();
   const canvas = useRef<fabric.Canvas>();
   const isDrawing = useRef<boolean>(false);
   const originXY = useRef({ x: 0, y: 0 });
@@ -23,7 +25,20 @@ export const useLineTool = (save: () => void) => {
       originXY.current.y
     ], {
       selectable: true,
+      hasBorders: false,
       ...options.current
+    });
+    line.setControlsVisibility(controlConfig);
+
+    canvas.current.on("object:scaling", (e) => {
+      const obj = e.target as fabric.Line;
+      if (obj && obj.type === "line") {
+        const scaleX = obj.scaleX;
+        const scaleY = obj.scaleY;
+        obj.set({
+          strokeWidth: options.current.strokeWidth / Math.max(scaleX, scaleY)
+        });
+      }
     });
 
     canvas.current.add(line);

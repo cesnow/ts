@@ -1,8 +1,12 @@
 import * as fabric from "fabric";
 import { useCallback, useRef } from "react";
 import { IDrawToolOptions } from "@/components/Hero/draw/interfaces";
+import { useCursor } from "@/components/Hero/draw/useCursor";
 
 export const useRectangleTool = (save: () => void) => {
+
+  const { applyEditorCursor, controlConfig } = useCursor();
+
   const canvas = useRef<fabric.Canvas>();
   const isDrawing = useRef<boolean>(false);
   const originXY = useRef({ x: 0, y: 0 });
@@ -30,7 +34,33 @@ export const useRectangleTool = (save: () => void) => {
       hasControls: true,
       fill: "transparent",
       selectable: true,
+      hasRotatingPoint: false,
       ...options.current
+    });
+    rect.setControlsVisibility(controlConfig);
+
+    canvas.current.on("object:scaling", (e) => {
+      const obj = e.target as fabric.Rect;
+      if (obj && obj.type === "rect") {
+        const scaleX = obj.scaleX;
+        const scaleY = obj.scaleY;
+
+        // 计算新的宽高和线宽
+        const newWidth = obj.width * scaleX;
+        const newHeight = obj.height * scaleY;
+        const newStrokeWidth = options.current.strokeWidth / Math.max(scaleX, scaleY);
+
+        // 设置新的宽高和线宽，同时重置 scaleX 和 scaleY
+        obj.set({
+          width: newWidth,
+          height: newHeight,
+          strokeWidth: newStrokeWidth,
+          scaleX: 1,
+          scaleY: 1
+        });
+        obj.setCoords(); // 更新对象的坐标
+        canvas.current.renderAll();
+      }
     });
 
     canvas.current.add(rect);
@@ -69,12 +99,13 @@ export const useRectangleTool = (save: () => void) => {
     canvas.current.on("mouse:down", onMouseDown);
     canvas.current.on("mouse:move", onMouseMove);
     canvas.current.on("mouse:up", onMouseUp);
+    applyEditorCursor(canvas.current);
     return () => {
       canvas.current.off("mouse:down", onMouseDown);
       canvas.current.off("mouse:move", onMouseMove);
       canvas.current.off("mouse:up", onMouseUp);
     };
-  }, [canvas, onMouseDown, onMouseMove, onMouseUp]);
+  }, [canvas, onMouseDown, onMouseMove, onMouseUp, applyEditorCursor]);
 
   const activate = useCallback((c: fabric.Canvas, opts: IDrawToolOptions): () => void => {
     canvas.current = c;
