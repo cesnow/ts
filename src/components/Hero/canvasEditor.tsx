@@ -9,6 +9,7 @@ import { IDrawToolProps } from "@/components/Hero/draw/interfaces";
 import { useLineTool } from "@/components/Hero/draw/Line";
 import { useArrowTool } from "@/components/Hero/draw/Arrow";
 import { useSelectTool } from "@/components/Hero/draw/Select";
+import { useTextTool } from "@/components/Hero/draw/Text";
 
 interface ExtendedCanvasRenderingContext2D extends CanvasRenderingContext2D {
   webkitBackingStorePixelRatio?: number;
@@ -32,6 +33,7 @@ const CanvasEditor = () => {
   const lineTool = useLineTool(saveHistory);
   const arrowTool = useArrowTool(saveHistory);
   const selectTool = useSelectTool()
+  const textTool = useTextTool(saveHistory);
 
   const drawTool = useMemo<IDrawToolProps>(() => ({
     "select": selectTool,
@@ -40,6 +42,7 @@ const CanvasEditor = () => {
     "circle": circleTool,
     "line": lineTool,
     "arrow": arrowTool,
+    "text": textTool,
   }), [canvas]);
 
   useEffect(() => {
@@ -72,7 +75,7 @@ const CanvasEditor = () => {
     fabric.FabricObject.prototype.transparentCorners = false;
     fabric.FabricObject.prototype.centeredRotation = true;
     fabric.FabricObject.prototype.cornerColor = "#2BEBC8";
-    fabric.FabricObject.prototype.cornerStyle = "rect";
+    fabric.FabricObject.prototype.cornerStyle = "circle";
     fabric.FabricObject.prototype.cornerStrokeColor = "#2BEBC8";
     fabric.FabricObject.prototype.cornerSize = 1;
     fabric.FabricObject.prototype.backgroundColor = "black";
@@ -101,6 +104,8 @@ const CanvasEditor = () => {
       stroke: "#FF0000",
       strokeWidth: 5,
       arrowSize: 15,
+      fontSize: 20,
+      fontFamily: "Roboto, Arial",
     });
   }, [activeTool, canvas, drawTool]);
 

@@ -4,6 +4,8 @@ export interface IDrawToolOptions {
   stroke?: string;
   strokeWidth?: number;
   arrowSize?: number;
+  fontSize?: number;
+  fontFamily?: string;
 }
 
 export interface IDrawTool {
