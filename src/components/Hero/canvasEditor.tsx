@@ -71,17 +71,6 @@ const CanvasEditor = () => {
     ctx.scale(ratio, ratio)
     ctx.clearRect(0, 0, wh, wh);
 
-
-    fabric.FabricObject.prototype.transparentCorners = false;
-    fabric.FabricObject.prototype.centeredRotation = true;
-    fabric.FabricObject.prototype.cornerColor = "#2BEBC8";
-    fabric.FabricObject.prototype.cornerStyle = "circle";
-    fabric.FabricObject.prototype.cornerStrokeColor = "#2BEBC8";
-    fabric.FabricObject.prototype.cornerSize = 1;
-    fabric.FabricObject.prototype.backgroundColor = "black";
-    fabric.FabricObject.prototype.zoomX = 1;
-    fabric.FabricObject.prototype.zoomY = 1;
-
     canvas.current = c;
     c.renderAll();
     setHistoryCanvas(c);

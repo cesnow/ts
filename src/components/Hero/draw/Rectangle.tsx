@@ -5,7 +5,7 @@ import { useCursor } from "@/components/Hero/draw/useCursor";
 
 export const useRectangleTool = (save: () => void) => {
 
-  const { applyEditorCursor, controlConfig } = useCursor();
+  const { applyEditorCursor, controlConfig, fabricObjectOptions } = useCursor();
 
   const canvas = useRef<fabric.Canvas>();
   const isDrawing = useRef<boolean>(false);
@@ -29,15 +29,14 @@ export const useRectangleTool = (save: () => void) => {
       width: pointer.x - originXY.current.x,
       height: pointer.y - originXY.current.y,
       angle: 0,
-      transparentCorners: false,
       hasBorders: false,
-      hasControls: true,
+      hasControls: false,
       fill: "transparent",
       selectable: true,
       hasRotatingPoint: false,
-      ...options.current
+      ...options.current,
+      ...fabricObjectOptions
     });
-    rect.setControlsVisibility(controlConfig);
 
     canvas.current.on("object:scaling", (e) => {
       const obj = e.target as fabric.Rect;
@@ -84,7 +83,6 @@ export const useRectangleTool = (save: () => void) => {
     activeObj.set({ width: Math.abs(originXY.current.x - pointer.x) });
     activeObj.set({ height: Math.abs(originXY.current.y - pointer.y) });
 
-    activeObj.setCoords();
     canvas.current.renderAll();
 
   }, [canvas, isDrawing]);
@@ -92,6 +90,13 @@ export const useRectangleTool = (save: () => void) => {
   const onMouseUp = useCallback(() => {
     isDrawing.current = false;
     canvas.current.isDrawingMode = false;
+
+    const activeObj = canvas.current.getActiveObject();
+    activeObj.setCoords();
+    activeObj.setControlsVisibility(controlConfig);
+    activeObj.hasControls = true;
+    canvas.current.discardActiveObject();
+
     save();
   }, [canvas, save]);
 

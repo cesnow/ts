@@ -26,9 +26,9 @@ export const useLineTool = (save: () => void) => {
     ], {
       selectable: true,
       hasBorders: false,
+      hasControls: false,
       ...options.current
     });
-    line.setControlsVisibility(controlConfig);
 
     canvas.current.on("object:scaling", (e) => {
       const obj = e.target as fabric.Line;
@@ -54,14 +54,21 @@ export const useLineTool = (save: () => void) => {
 
     activeObj.set({ x2: pointer.x, y2: pointer.y });
 
-    activeObj.setCoords();
     canvas.current.renderAll();
 
   }, [canvas, isDrawing]);
 
   const onMouseUp = useCallback(() => {
+
     isDrawing.current = false;
     canvas.current.isDrawingMode = false;
+
+    const activeObj = canvas.current.getActiveObject();
+    activeObj.setCoords();
+    activeObj.setControlsVisibility(controlConfig);
+    activeObj.hasControls = true;
+    canvas.current.discardActiveObject();
+
     save();
   }, [canvas, save]);
 

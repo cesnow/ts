@@ -1,5 +1,6 @@
 import * as fabric from "fabric";
 import { useCallback, useMemo } from "react";
+import { tree } from "next/dist/build/templates/app-page";
 
 export const useCursor = () => {
 
@@ -13,6 +14,18 @@ export const useCursor = () => {
     tl: false, // top-left
     tr: false, // top-right
     mtr: false // middle-top-rotate, 隐藏旋转控件
+  }), []);
+
+  const fabricObjectOptions = useMemo(() => ({
+    transparentCorners: true,
+    centeredRotation: true,
+    // cornerStyle: "circle",
+    cornerColor: "#ffa020",
+    cornerStrokeColor: "#ffa020",
+    cornerSize: 16,
+    cornerRadius: 8,
+    zoomX: 1,
+    zoomY: 1
   }), []);
 
   const createCursor = useCallback((color: string, size: number) => {
@@ -76,5 +89,10 @@ export const useCursor = () => {
     canvas.hoverCursor = cursorUrl;
   }, []);
 
-  return { controlConfig, applyPencilCursor, applyEditorCursor, applySelectCursor, applyTextCursor };
+  return {
+    controlConfig, fabricObjectOptions,
+    applyPencilCursor,
+    applyEditorCursor,
+    applySelectCursor,
+    applyTextCursor };
 };

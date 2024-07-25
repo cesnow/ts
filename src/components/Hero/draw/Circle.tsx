@@ -27,9 +27,9 @@ export const useCircleTool = (save: () => void) => {
       fill: 'transparent',
       selectable: true,
       hasBorders: false,
+      hasControls: false,
       ...options.current
     });
-    circle.setControlsVisibility(controlConfig);
 
     canvas.current.on("object:scaling", (e) => {
       const obj = e.target as fabric.Circle;
@@ -54,28 +54,40 @@ export const useCircleTool = (save: () => void) => {
 
   }, [canvas]);
 
-  const onMouseMove = useCallback((o: { e: fabric.TPointerEvent; }) => {
+  const onMouseMove = useCallback((o: { e: fabric.TPointerEvent }) => {
     if (!isDrawing.current) return;
 
     const pointer = canvas.current.getViewportPoint(o.e);
-    const activeObj = canvas.current.getActiveObject();
+    const activeObj = canvas.current.getActiveObject() as fabric.Circle;
 
+    const width = Math.abs(originXY.current.x - pointer.x);
+    const height = Math.abs(originXY.current.y - pointer.y);
     // let radius = Math.sqrt(Math.pow(pointer.x - origX, 2) + Math.pow(pointer.y - origY, 2));
-    let radius = Math.max(Math.abs(originXY.current.x - pointer.x), Math.abs(originXY.current.y - pointer.y)) / 2;
-    activeObj.set({ radius });
+    const radius = Math.max(width, height) / 2;
+
+    const left = originXY.current.x < pointer.x ? originXY.current.x : pointer.x;
+    const top = originXY.current.y < pointer.y ? originXY.current.y : pointer.y;
+
     activeObj.set({
-      left: originXY.current.x,
-      top: originXY.current.y
+      radius,
+      left: left + width / 2 - radius,
+      top: top + height / 2 - radius
     });
 
-    activeObj.setCoords();
     canvas.current.renderAll();
-
   }, [canvas, isDrawing]);
 
   const onMouseUp = useCallback(() => {
+
     isDrawing.current = false;
     canvas.current.isDrawingMode = false;
+
+    const activeObj = canvas.current.getActiveObject();
+    activeObj.setCoords();
+    activeObj.setControlsVisibility(controlConfig);
+    activeObj.hasControls = true;
+    canvas.current.discardActiveObject();
+
     save();
   }, [canvas, save]);
 

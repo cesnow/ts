@@ -14,7 +14,6 @@ export const usePencilTool = (save: () => void) => {
   const bindEvents = useCallback((): () => void => {
     canvas.current.isDrawingMode = true;
     canvas.current.freeDrawingBrush = new fabric.PencilBrush(canvas.current);
-    ;
     canvas.current.freeDrawingBrush.color = options.current.stroke;
     canvas.current.freeDrawingBrush.width = options.current.strokeWidth;
 

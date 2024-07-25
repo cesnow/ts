@@ -30,7 +30,8 @@ export const useArrowTool = (save: () => void) => {
       selectable: false,
         ...options.current,
         originY: "center",
-        originX: "center"
+        originX: "center",
+        hasControls: false
     });
 
     // arrow.current = new fabric.Triangle({
@@ -51,7 +52,8 @@ export const useArrowTool = (save: () => void) => {
       strokeLineCap: "round",
       selectable: false,
       originX: "center",
-      originY: "center"
+      originY: "center",
+      hasControls: false
     });
 
     const arrowRight = new fabric.Line([0, 0, 0, 0], {
@@ -60,16 +62,17 @@ export const useArrowTool = (save: () => void) => {
       strokeLineCap: "round",
       selectable: false,
       originX: "center",
-      originY: "center"
+      originY: "center",
+      hasControls: false
     });
 
     group.current = new fabric.Group([line, arrowRight, arrowLeft], {
       selectable: true,
       hasBorders: false,
+      hasControls: false,
       left: originXY.current.x,
       top: originXY.current.y,
     });
-    group.current.setControlsVisibility(controlConfig);
 
     canvas.current.on("object:scaling", function(e) {
       const shape = e.target;
@@ -148,14 +151,21 @@ export const useArrowTool = (save: () => void) => {
       top: Math.min(originXY.current.y, originXY.current.y + dy)
     });
 
-    activeObj.setCoords();
     canvas.current.requestRenderAll();
 
   }, [canvas, isDrawing]);
 
   const onMouseUp = useCallback(() => {
+
     isDrawing.current = false;
     canvas.current.isDrawingMode = false;
+
+    group.current.hasControls = true;
+    group.current.setControlsVisibility(controlConfig);
+    group.current.setCoords();
+
+    canvas.current.discardActiveObject();
+
     save();
   }, [canvas, save]);
 
