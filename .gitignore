@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+.yarn/install-state.gz
 .vscode
 # testing
 /coverage
@@ -33,3 +34,7 @@ yarn-error.log*
 
 # jetbrains
 /.idea
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
