@@ -6,6 +6,15 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+
+#ENV HTTP_PROXY=http://<nexus-proxy-url>:<port>
+#ENV HTTPS_PROXY=http://<nexus-proxy-url>:<port>
+#RUN echo 'http_proxy=http://<nexus-proxy-url>:<port>' >> /etc/environment && \
+#    echo 'https_proxy=http://<nexus-proxy-url>:<port>' >> /etc/environment && \
+#    echo '@nexus http://<nexus-proxy-url>:<port>/repository/alpine/' >> /etc/apk/repositories
+#RUN apk update && apk add --no-cache libc6-compat@nexus
+#RUN unset HTTP_PROXY HTTPS_PROXY
+
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
