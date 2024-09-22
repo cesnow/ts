@@ -1,0 +1,80 @@
+@use "@ag-grid-community/styles" as ag;
+
+@include ag.grid-styles(
+  (
+    theme: aaa,
+    --ag-border-radius: 4px,
+    --ag-header-height: 30px,
+    --ag-borders: 1px solid,
+    --ag-border-color: #00000017,
+    --ag-row-border-style: solid,
+    --ag-row-border-width: 1px,
+    --ag-row-border-color: #00000017,
+    --ag-cell-horizontal-border: solid #00000017,
+    //--ag-header-column-resize-handle-display: block;
+    //--ag-header-column-resize-handle-height: 25%;
+    //--ag-header-column-resize-handle-width: 5px;
+    //--ag-header-column-resize-handle-color: orange;
+    --ag-header-column-separator-display: block,
+    --ag-header-column-separator-height: 100%,
+    --ag-header-column-separator-width: 1px,
+    --ag-header-column-separator-color: #00000017,
+    --ag-selected-row-background-color: #ff00ff,
+    --ag-row-hover-color: #ebf3ff,
+    --ag-cell-horizontal-padding: 14px,
+    --ag-card-radius: 0,
+    --ag-borders-input: solid 1px,
+    --ag-input-border-color: #3588f3,
+    --ag-input-focus-border-color: #3588f3,
+
+    --ag-range-selection-border-color: #00000017,
+    --ag-range-selection-border-style: solid,
+  )
+);
+
+.ag-theme-aaa {
+  .ag-aria-description-container {
+    z-index: 99;
+  }
+
+  --ag-icon-font-family: agGridQuartz;
+  --ag-icon-image-checkbox-checked: #ff00ff;
+  --ag-icon-image-checkbox-unchecked: url(/icon1.svg);
+  --ag-icon-image-opacity-checkbox-checked: 1;
+
+  --ag-borders-: 1px;
+  --ag-input-border-color: #3588f3;
+  --ag-active-color: #3588f3;
+
+  .ag-header-cell-label {
+    .ag-header-cell-text {
+      font-size: 12px;
+      display: inline-block;
+    }
+  }
+
+  .ag-cell-focus {
+    // border-width: 0 !important;
+  }
+
+  .ag-text-field-input {
+    font-size: 12px;
+    padding: 12px;
+  }
+
+  .ag-cell-focus:not(.ag-cell-range-selected):focus-within {
+    border: 1px solid transparent;
+    border-right: solid 1px #00000017;
+  }
+
+  .truncate-multiline {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 限制行數 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; /* 確保正常換行 */
+    word-break: break-all; /* 確保中文單詞不會被斷開 */
+    text-align: justify; /* 左右對齊 */
+  }
+}

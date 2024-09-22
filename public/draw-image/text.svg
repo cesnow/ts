@@ -1,0 +1,23 @@
+<svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <rect width="24" height="24" fill="url(#pattern0_887_30830)" fill-opacity="0.01"/>
+    <g filter="url(#filter0_d_887_30830)">
+        <path d="M15 19.25H14C13.31 19.25 12.75 18.69 12.75 18V6C12.75 5.31 13.31 4.75 14 4.75H15C15.41 4.75 15.75 4.41 15.75 4C15.75 3.59 15.41 3.25 15 3.25H14C13.21 3.25 12.5 3.58 12 4.11C11.5 3.58 10.79 3.25 10 3.25H9C8.59 3.25 8.25 3.59 8.25 4C8.25 4.41 8.59 4.75 9 4.75H10C10.69 4.75 11.25 5.31 11.25 6V18C11.25 18.69 10.69 19.25 10 19.25H9C8.59 19.25 8.25 19.59 8.25 20C8.25 20.41 8.59 20.75 9 20.75H10C10.79 20.75 11.5 20.42 12 19.89C12.5 20.42 13.21 20.75 14 20.75H15C15.41 20.75 15.75 20.41 15.75 20C15.75 19.59 15.41 19.25 15 19.25Z" fill="#262626"/>
+        <path d="M15 19H14C13.4481 19 13 18.5519 13 18V6C13 5.44807 13.4481 5 14 5H15C15.5481 5 16 4.54807 16 4C16 3.45193 15.5481 3 15 3H14C13.2305 3 12.5297 3.28753 12 3.76136C11.4703 3.28753 10.7695 3 10 3H9C8.45193 3 8 3.45193 8 4C8 4.54807 8.45193 5 9 5H10C10.5519 5 11 5.44807 11 6V18C11 18.5519 10.5519 19 10 19H9C8.45193 19 8 19.4519 8 20C8 20.5481 8.45193 21 9 21H10C10.7695 21 11.4703 20.7125 12 20.2386C12.5297 20.7125 13.2305 21 14 21H15C15.5481 21 16 20.5481 16 20C16 19.4519 15.5481 19 15 19Z" stroke="white" stroke-width="0.5"/>
+    </g>
+    <defs>
+        <pattern id="pattern0_887_30830" patternContentUnits="objectBoundingBox" width="1" height="1">
+            <use xlink:href="#image0_887_30830"/>
+        </pattern>
+        <filter id="filter0_d_887_30830" x="5.75" y="2.75" width="12.5" height="22.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+            <feOffset dy="2"/>
+            <feGaussianBlur stdDeviation="1"/>
+            <feComposite in2="hardAlpha" operator="out"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_887_30830"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_887_30830" result="shape"/>
+        </filter>
+        <image id="image0_887_30830" width="1" height="1" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAQSURBVHgBAQUA+v8AAAAAAAAFAAFkeJU4AAAAAElFTkSuQmCC"/>
+    </defs>
+</svg>
