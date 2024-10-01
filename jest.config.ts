@@ -3,7 +3,13 @@
  * https://jestjs.io/docs/configuration
  */
 
-import type { Config } from "jest";
+import type {Config} from 'jest';
+import nextJest from 'next/jest.js'
+
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: './',
+})
 
 const config: Config = {
   // All imported modules in your tests should be mocked automatically
@@ -16,7 +22,7 @@ const config: Config = {
   // cacheDirectory: "/private/var/folders/hp/wznx8z3n44vbb07nvcg7clkr0000gn/T/jest_dx",
 
   // Automatically clear mock calls, instances, contexts and results before every test
-  clearMocks: true,
+  // clearMocks: false,
 
   // Indicates whether the coverage information should be collected while executing the test
   collectCoverage: true,
@@ -109,16 +115,6 @@ const config: Config = {
 
   // Use this configuration option to add custom reporters to Jest
   // reporters: undefined,
-  reporters: [
-    "default",
-    [
-      "jest-junit",
-      {
-        outputDirectory: "./TEST_RESULTS/",
-        outputName: "junit.xml",
-      },
-    ],
-  ],
 
   // Automatically reset mock state before every test
   // resetMocks: false,
@@ -148,6 +144,7 @@ const config: Config = {
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   // setupFilesAfterEnv: [],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,
@@ -156,7 +153,7 @@ const config: Config = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  // testEnvironment: "jest-environment-node",
+  testEnvironment: "jsdom",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -206,4 +203,4 @@ const config: Config = {
   // watchman: true,
 };
 
-export default config;
+export default createJestConfig(config)

@@ -27,6 +27,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@sentry/nextjs": "^8.30.0",
     "@types/fabric": "^5.3.8",
+    "@types/jest": "^29.5.13",
     "@types/uuid": "^10.0.0",
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
@@ -47,8 +48,10 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.4.8",
-    "@testing-library/react": "^16.0.0",
+    "@playwright/test": "^1.47.2",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^16.0.1",
     "@types/node": "^22.5.5",
     "@types/react": "^18.3.8",
     "autoprefixer": "^10.4.17",
