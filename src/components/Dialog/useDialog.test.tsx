@@ -1,7 +1,7 @@
-import { ReactNode, ReactElement, act } from "react";
+import { ReactNode, ReactElement } from "react";
 import { useDialog } from "@/components/Dialog/useDialog";
 import { DialogProvider } from "@/components/Dialog/DialogProvider";
-import { renderHook } from "@testing-library/react";
+import { renderHook, act } from "@testing-library/react";
 
 describe('useDialog', () => {
 
