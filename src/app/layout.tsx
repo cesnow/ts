@@ -7,6 +7,8 @@ import { Roboto } from "next/font/google";
 import "node_modules/react-modal-video/css/modal-video.css";
 import "../styles/index.scss";
 import { Providers } from "./providers";
+import { AppProvider } from "@/components/Providers/AppProvider";
+import { MatomoProvider } from "@cesnow/matomo-next";
 
 const roboto = Roboto({ weight: ["400", "500", "700"], subsets: ["latin"] });
 
@@ -25,13 +27,16 @@ export default function RootLayout({
 
       <body className={`bg-white dark:bg-black ${roboto.className}`}>
         <Providers>
-          {/*<Header />*/}
-          {children}
-          <Footer />
-          <ScrollToTop />
+          <MatomoProvider>
+            <AppProvider>
+              {/*<Header />*/}
+              {children}
+              <Footer />
+              <ScrollToTop />
+            </AppProvider>
+          </MatomoProvider>
         </Providers>
       </body>
     </html>
   );
 }
-
